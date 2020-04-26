@@ -14,7 +14,21 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <div class="list-group">
+                        @foreach($dates as $date)
+                            @php
+                                $gmtTimezone = new DateTimeZone('UTC');
+                                $myTimezone = new DateTimeZone($userTimezone);
+                                $gmtDateTime = new DateTime($date->date, $gmtTimezone);
+                                $gmtDateTime2 = new DateTime($date->date, $gmtTimezone);
+                                $myDateTime = $gmtDateTime2->setTimeZone($myTimezone);
+                            @endphp
+                            <a href="#" class="list-group-item list-group-item-action">{{ $gmtDateTime->format('g:ia \o\n l jS F Y') }} UTC <b>TO</b> {{ $myDateTime->format('g:ia \o\n l jS F Y') . " " .$userTimezone }} </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="card-footer">
+                    {{ $dates->links() }}
                 </div>
             </div>
         </div>
